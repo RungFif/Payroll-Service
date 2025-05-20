@@ -50,4 +50,12 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    /**
+     * Get the post-authentication redirect path.
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        return redirect()->route('home');
+    }
 }

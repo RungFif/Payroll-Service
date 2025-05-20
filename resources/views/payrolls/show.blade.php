@@ -118,7 +118,10 @@
             <h2 class="text-lg font-semibold mb-2">Comments</h2>
             <div class="space-y-4 mb-4">
                 @forelse($payroll->comments as $comment)
-                    @php $isAdmin = $comment->user && $comment->user->hasRole('admin'); @endphp
+                    @php
+                        $isAdmin = $comment->user && $comment->user->hasRole('admin');
+                        $user = auth()->user();
+                    @endphp
                     <div class="{{ $isAdmin ? 'bg-yellow-50 border-yellow-400' : 'bg-gray-50' }} rounded p-3 border flex items-start">
                         @if($isAdmin)
                             <svg class="h-4 w-4 text-yellow-500 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -136,6 +139,26 @@
                                 <span class="ml-2 text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</span>
                             </div>
                             <div class="text-gray-700 text-sm">{{ $comment->body }}</div>
+                            <div class="flex items-center mt-1 space-x-2">
+                                <form action="{{ route('comments.like', $comment) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="text-green-600 hover:text-green-800 text-xs flex items-center" {{ $comment->likedBy($user->id) ? 'disabled' : '' }}>
+                                        <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 9V5a3 3 0 00-6 0v4M5 15h14a2 2 0 002-2v-2a2 2 0 00-2-2H7l-2 8v-6z"/>
+                                        </svg>
+                                        {{ $comment->likes()->count() }}
+                                    </button>
+                                </form>
+                                <form action="{{ route('comments.dislike', $comment) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="text-red-600 hover:text-red-800 text-xs flex items-center" {{ $comment->dislikedBy($user->id) ? 'disabled' : '' }}>
+                                        <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 15v4a3 3 0 006 0v-4m5-6H7l-2 8v-6a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 01-2 2z"/>
+                                        </svg>
+                                        {{ $comment->dislikes()->count() }}
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @empty

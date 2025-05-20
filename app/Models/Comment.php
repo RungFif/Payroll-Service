@@ -22,12 +22,12 @@ class Comment extends Model
 
     public function likes()
     {
-        return $this->hasMany(CommentLike::class)->where('is_like', true);
+        return $this->hasMany(\App\Models\CommentLike::class)->where('is_like', true);
     }
 
     public function dislikes()
     {
-        return $this->hasMany(CommentLike::class)->where('is_like', false);
+        return $this->hasMany(\App\Models\CommentLike::class)->where('is_like', false);
     }
 
     public function likedBy($userId)

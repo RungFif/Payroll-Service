@@ -13,7 +13,7 @@ class CommentLikeController extends Controller
         $comment = Comment::findOrFail($commentId);
         $user = $request->user();
 
-        $like = CommentLike::updateOrCreate(
+        CommentLike::updateOrCreate(
             ['comment_id' => $comment->id, 'user_id' => $user->id],
             ['is_like' => true]
         );
@@ -26,7 +26,7 @@ class CommentLikeController extends Controller
         $comment = Comment::findOrFail($commentId);
         $user = $request->user();
 
-        $dislike = CommentLike::updateOrCreate(
+        CommentLike::updateOrCreate(
             ['comment_id' => $comment->id, 'user_id' => $user->id],
             ['is_like' => false]
         );

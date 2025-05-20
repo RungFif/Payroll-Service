@@ -14,6 +14,7 @@ class CreateCommentLikesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->boolean('is_like')->default(true); // true = like, false = dislike
             $table->timestamps();
+
             $table->unique(['comment_id', 'user_id']);
         });
     }

@@ -37,10 +37,21 @@
         </div>
     </nav>
     <div class="container">
-        <div class="text-center mt-5">
-            <h1>Welcome to Payroll Service</h1>
-            <p class="lead">Manage your employee payroll efficiently and securely.</p>
-            <a href="#" class="btn btn-primary mt-3">Get Started</a>
+        <div class="max-w-2xl mx-auto py-12">
+            <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                <h1 class="text-3xl font-bold mb-4 text-blue-700">Welcome to Payroll Portal</h1>
+                <p class="mb-8 text-gray-600">Choose where you want to go:</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="{{ route('employee-requests.index') }}"
+                       class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition">
+                        View Employee Requests
+                    </a>
+                    <a href="{{ route('payrolls.index') }}"
+                       class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold shadow hover:bg-indigo-700 transition">
+                        View Payrolls
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </body>
