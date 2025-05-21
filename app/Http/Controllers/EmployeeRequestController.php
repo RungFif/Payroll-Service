@@ -118,7 +118,11 @@ class EmployeeRequestController extends Controller
                 'type' => 'required',
                 'description' => 'nullable',
             ]);
-            $empRequest->update($request->only('type', 'description'));
+            $empRequest->update([
+                'type' => $request->type,
+                'description' => $request->description,
+                'status' => 'pending', // revert status to pending on user update
+            ]);
             return redirect()->route('employee-requests.index')->with('success', 'Request updated!');
         } else {
             abort(403);
