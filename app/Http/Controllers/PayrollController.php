@@ -22,12 +22,12 @@ class PayrollController extends Controller
             if ($search = request('search')) {
                 $query->where(function ($q) use ($search) {
                     $q->where('id', 'like', "%$search%")
-                      ->orWhere('amount', 'like', "%$search%")
-                      ->orWhere('period', 'like', "%$search%")
-                      ->orWhereHas('user', function ($uq) use ($search) {
-                          $uq->where('name', 'like', "%$search%")
-                             ->orWhere('email', 'like', "%$search%");
-                      });
+                        ->orWhere('amount', 'like', "%$search%")
+                        ->orWhere('period', 'like', "%$search%")
+                        ->orWhereHas('user', function ($uq) use ($search) {
+                            $uq->where('name', 'like', "%$search%")
+                                ->orWhere('email', 'like', "%$search%");
+                        });
                 });
             }
 
@@ -152,12 +152,12 @@ class PayrollController extends Controller
             if ($search = $request->input('search')) {
                 $query->where(function ($q) use ($search) {
                     $q->where('id', 'like', "%$search%")
-                      ->orWhere('amount', 'like', "%$search%")
-                      ->orWhere('period', 'like', "%$search%")
-                      ->orWhereHas('user', function ($uq) use ($search) {
-                          $uq->where('name', 'like', "%$search%")
-                             ->orWhere('email', 'like', "%$search%");
-                      });
+                        ->orWhere('amount', 'like', "%$search%")
+                        ->orWhere('period', 'like', "%$search%")
+                        ->orWhereHas('user', function ($uq) use ($search) {
+                            $uq->where('name', 'like', "%$search%")
+                                ->orWhere('email', 'like', "%$search%");
+                        });
                 });
             }
 

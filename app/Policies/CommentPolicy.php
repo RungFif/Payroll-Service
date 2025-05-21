@@ -16,4 +16,14 @@ class CommentPolicy
     {
         return $user->id === $comment->user_id || $user->hasRole('admin');
     }
+
+    public function viewAny(User $user)
+    {
+        return $user->hasRole('admin') || $user->hasRole('editor');
+    }
+
+    public function view(User $user, Comment $comment)
+    {
+        return $user->id === $comment->user_id || $user->hasRole('admin') || $user->hasRole('editor');
+    }
 }

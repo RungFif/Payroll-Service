@@ -53,5 +53,8 @@ Route::get('payrolls.export', [PayrollController::class, 'export'])->name('payro
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::post('/comments/{comment}/like', [CommentLikeController::class, 'like'])->name('comments.like');
 Route::post('/comments/{comment}/dislike', [CommentLikeController::class, 'dislike'])->name('comments.dislike');
+Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

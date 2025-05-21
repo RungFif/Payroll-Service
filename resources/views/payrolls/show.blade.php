@@ -35,7 +35,7 @@
                         <span class="block text-sm font-medium text-gray-500">Amount</span>
                     </div>
                     <div class="col-span-2">
-                        <span class="font-mono text-gray-900">₱{{ number_format($payroll->amount, 2) }}</span>
+                        <span class="font-mono text-gray-900">${{ number_format($payroll->amount, 2) }}</span>
                     </div>
                 </div>
 
@@ -121,6 +121,7 @@
                     @php
                         $isAdmin = $comment->user && $comment->user->hasRole('admin');
                         $user = auth()->user();
+                        $canEdit = $user && ($user->id === $comment->user_id || $user->hasRole('admin'));
                     @endphp
                     <div class="{{ $isAdmin ? 'bg-yellow-50 border-yellow-400' : 'bg-gray-50' }} rounded p-3 border flex items-start">
                         @if($isAdmin)
@@ -138,8 +139,20 @@
                                 </span>
                                 <span class="ml-2 text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</span>
                             </div>
-                            <div class="text-gray-700 text-sm">{{ $comment->body }}</div>
-                            <div class="flex items-center mt-1 space-x-2">
+                            @if(request('edit_comment') == $comment->id)
+                                <form action="{{ route('comments.update', $comment) }}" method="POST" class="mb-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <textarea name="body" rows="2" class="w-full border rounded p-1 text-xs" required>{{ old('body', $comment->body) }}</textarea>
+                                    <div class="flex space-x-2 mt-1">
+                                        <button type="submit" class="px-2 py-1 bg-blue-600 text-white rounded text-xs">Save</button>
+                                        <a href="{{ url()->current() }}" class="px-2 py-1 bg-gray-200 rounded text-xs">Cancel</a>
+                                    </div>
+                                </form>
+                            @else
+                                <div class="text-gray-700 text-sm">{{ $comment->body }}</div>
+                            @endif
+                            <div class="flex items-center mt-1 gap-2 flex-wrap">
                                 <form action="{{ route('comments.like', $comment) }}" method="POST" class="inline">
                                     @csrf
                                     <button type="submit" class="text-green-600 hover:text-green-800 text-xs flex items-center" {{ $comment->likedBy($user->id) ? 'disabled' : '' }}>
@@ -158,6 +171,14 @@
                                         {{ $comment->dislikes()->count() }}
                                     </button>
                                 </form>
+                                @if ($canEdit)
+                                    <a href="{{ url()->current() . '?edit_comment=' . $comment->id }}" class="text-xs text-blue-500 hover:underline px-2">Edit</a>
+                                    <form action="{{ route('comments.destroy', $comment) }}" method="POST" class="inline" onsubmit="return confirm('Delete this comment?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-xs text-red-500 hover:underline px-2">Delete</button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -41,9 +41,10 @@
                             <select name="user_id" id="user_id"
                                 class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                                 required>
-                                @foreach($users as $user)
-                                    @if(!$user->hasRole('admin'))
-                                        <option value="{{ $user->id }}" @selected(old('user_id', $payroll->user_id) == $user->id)>{{ $user->name }}</option>
+                                @foreach ($users as $user)
+                                    @if (!$user->hasRole('admin'))
+                                        <option value="{{ $user->id }}" @selected(old('user_id', $payroll->user_id) == $user->id)>{{ $user->name }}
+                                        </option>
                                     @endif
                                 @endforeach
                             </select>
